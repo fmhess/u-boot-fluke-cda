@@ -40,6 +40,6 @@ int checkboard(void)
 int board_late_init()
 {
 	socfpga_per_reset(RSTMGR_DMAIF(0), 0);
-	puts("Deasserted DMA peripheral request 0 reset.");
+	puts("Deasserted DMA peripheral request 0 reset.\n");
 }
 
