@@ -39,6 +39,7 @@ int checkboard(void)
 #define RSTMGR_DMAIF(n) RSTMGR_DEFINE(2, (n))
 int board_late_init()
 {
-	socfpga_per_reset(RSTMGR_DMAIF(0), 0);	
+	socfpga_per_reset(RSTMGR_DMAIF(0), 0);
+	puts("Deasserted DMA peripheral request 0 reset.");
 }
 

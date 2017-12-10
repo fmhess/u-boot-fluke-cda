@@ -60,6 +60,9 @@
 /* environment setting for MMC */
 #define CONFIG_ENV_IS_IN_SPI_FLASH
 
+/* call board_late_init so our board file can deassert dma peripheral request reset */
+#define CONFIG_BOARD_LATE_INIT
+
 /* Extra Environment */
 #define CONFIG_EXTRA_ENV_SETTINGS \
         "verify=n\0" \
