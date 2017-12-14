@@ -118,3 +118,25 @@ void socfpga_bridges_reset(int enable)
 	}
 }
 #endif
+
+int reset_mgr_cmd(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
+{
+	u32 reset_index;
+	int assert;
+	
+	if (argc != 3)
+		return CMD_RET_USAGE;
+
+	reset_index = simple_strtoul(argv[1], NULL, 0);
+	assert = simple_strtoul(argv[2], NULL, 0);
+	socfpga_per_reset(reset_index, assert);
+	return 0;
+}
+
+U_BOOT_CMD(
+	reset_mgr, 3, 1, reset_mgr_cmd,
+	"SoCFPGA HPS reset manager control",
+	"reset_index - Index of reset to assert/deassert.  See dt-bindings/reset/altr,rst-mgr.h\n"
+	"assert - 1 to assert reset, 0 to deassert\n"
+	""
+);
