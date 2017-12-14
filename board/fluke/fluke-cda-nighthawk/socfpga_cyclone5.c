@@ -32,19 +32,3 @@ int checkboard(void)
 #endif
 	return 0;
 }
-
-/* Really, this should probably be done _after_ we program the fpga, but
- * this seems to work ok and is essentially what the old altera customized u-boot did
- * anyways.  To do it right I guess we would need to define a u-boot command
- * that can be called in the bootcmd.
- */
-#ifndef CONFIG_BOARD_LATE_INIT
-#error "CONFIG_BOARD_LATE_INIT must be set for this board to deassert peripheral dma request resets"
-#endif
-#define RSTMGR_DMAIF(n) RSTMGR_DEFINE(2, (n))
-int board_late_init()
-{
-	socfpga_per_reset(RSTMGR_DMAIF(0), 0);
-	puts("Deasserted DMA peripheral request 0 reset.\n");
-}
-

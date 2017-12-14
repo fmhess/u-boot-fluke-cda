@@ -119,24 +119,33 @@ void socfpga_bridges_reset(int enable)
 }
 #endif
 
-int reset_mgr_cmd(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
+int resetmgr_cmd(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 {
 	u32 reset_index;
-	int assert;
+	unsigned long bank;
+	unsigned long offset
+	unsigned long assert;
 	
-	if (argc != 3)
+	if (argc != 4)
 		return CMD_RET_USAGE;
 
-	reset_index = simple_strtoul(argv[1], NULL, 0);
-	assert = simple_strtoul(argv[2], NULL, 0);
-	socfpga_per_reset(reset_index, assert);
+	bank = simple_strtoul(argv[1], NULL, 0);
+	offset = simple_strtoul(argv[2], NULL, 0);
+	assert = simple_strtoul(argv[3], NULL, 0);
+	socfpga_per_reset(RESETMGR_DEFINE(bank, offset), assert);
 	return 0;
 }
 
 U_BOOT_CMD(
-	reset_mgr, 3, 1, reset_mgr_cmd,
+	resetmgr, 4, 1, resetmgr_cmd,
 	"SoCFPGA HPS reset manager control",
-	"reset_index - Index of reset to assert/deassert.  See dt-bindings/reset/altr,rst-mgr.h\n"
+	"bank - Bank of reset to assert/deassert.\n"
+	"    0 ... mpumodrst\n"
+	"    1 ... permodrst\n"
+	"    2 ... per2modrst\n"
+	"    3 ... brgmodrst\n"
+	"    4 ... miscmodrst\n"
+	"offset - Offset of reset to assert/deassert.\n"
 	"assert - 1 to assert reset, 0 to deassert\n"
 	""
 );
