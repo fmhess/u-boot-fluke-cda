@@ -138,13 +138,14 @@ int resetmgr_cmd(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 U_BOOT_CMD(
 	resetmgr, 4, 1, resetmgr_cmd,
 	"SoCFPGA HPS reset manager control",
-	"bank - Bank of reset to assert/deassert.\n"
-	"    0 ... mpumodrst\n"
-	"    1 ... permodrst\n"
-	"    2 ... per2modrst\n"
-	"    3 ... brgmodrst\n"
-	"    4 ... miscmodrst\n"
-	"offset - Offset of reset to assert/deassert.\n"
-	"assert - 1 to assert reset, 0 to deassert\n"
+	"resetmgr bank offset assert\n"
+	"    bank - Bank of reset to assert/deassert.\n"
+	"        0 ... mpumodrst\n"
+	"        1 ... permodrst\n"
+	"        2 ... per2modrst\n"
+	"        3 ... brgmodrst\n"
+	"        4 ... miscmodrst\n"
+	"    offset - Offset of reset to assert/deassert.\n"
+	"    assert - 1 to assert reset, 0 to deassert.\n"
 	""
 );
