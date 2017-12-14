@@ -121,9 +121,8 @@ void socfpga_bridges_reset(int enable)
 
 int resetmgr_cmd(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 {
-	u32 reset_index;
 	unsigned long bank;
-	unsigned long offset
+	unsigned long offset;
 	unsigned long assert;
 	
 	if (argc != 4)
@@ -132,7 +131,7 @@ int resetmgr_cmd(cmd_tbl_t *cmdtp, int flag, int argc, char * const argv[])
 	bank = simple_strtoul(argv[1], NULL, 0);
 	offset = simple_strtoul(argv[2], NULL, 0);
 	assert = simple_strtoul(argv[3], NULL, 0);
-	socfpga_per_reset(RESETMGR_DEFINE(bank, offset), assert);
+	socfpga_per_reset(RSTMGR_DEFINE(bank, offset), assert);
 	return 0;
 }
 
