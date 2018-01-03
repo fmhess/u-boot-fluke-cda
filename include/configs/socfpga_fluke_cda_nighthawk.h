@@ -33,7 +33,13 @@
 #define CONFIG_SYS_NO_FLASH
 #define CONFIG_DOS_PARTITION
 #define CONFIG_FAT_WRITE
-#define CONFIG_HW_WATCHDOG
+/* Do NOT set CONFIG_HW_WATCHDOG, it will result in the hardware reset for the watchdog 
+ * never being asserted (see the code for arch_cpu_init() in arch/arm/mach-socfpga/misc.c
+ * if you don't believe me).  This results in odd behavior, like Linux spontaneously 
+ * rebooting a while after being shut down.
+ */
+/* #define CONFIG_HW_WATCHDOG 
+ */
 
 /* Memory configurations */
 #define PHYS_SDRAM_1_SIZE		0x40000000
