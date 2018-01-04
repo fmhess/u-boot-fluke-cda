@@ -132,7 +132,6 @@ void reset_deassert_peripherals_handoff(void)
 
 void reset_dma_peripheral_requests(int assert)
 {
-	printf("setting dma peri reset: %d\n", assert);
 	socfpga_per_reset(RSTMGR_DMAIF(0), CONFIG_HPS_RESET_ASSERT_FPGA_DMA0 || assert);
 	socfpga_per_reset(RSTMGR_DMAIF(1), CONFIG_HPS_RESET_ASSERT_FPGA_DMA1 || assert);
 	socfpga_per_reset(RSTMGR_DMAIF(2), CONFIG_HPS_RESET_ASSERT_FPGA_DMA2 || assert);
