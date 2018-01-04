@@ -51,7 +51,7 @@
 #define CONFIG_BOOTCOMMAND      "run ramboot"
 #else
 
-#define CONFIG_BOOTCOMMAND      "run qspifpga; bridge enable; run deassert_resets; run qspiload; run qspiboot"
+#define CONFIG_BOOTCOMMAND      "run qspifpga; bridge enable; run qspiload; run qspiboot"
 
 #endif
 #define CONFIG_LOADADDR         0x1000000
@@ -67,11 +67,8 @@
 #define CONFIG_ENV_IS_IN_SPI_FLASH
 
 /* Extra Environment */
-/* "resetmgr 2 0 0" deasserts reset on dma peripheral interface 0
- */
 #define CONFIG_EXTRA_ENV_SETTINGS \
         "verify=n\0" \
-        "deassert_resets=resetmgr 2 0 0\0" \
         "loadaddr=" __stringify(CONFIG_SYS_LOAD_ADDR) "\0" \
         "ramboot=setenv bootargs " CONFIG_BOOTARGS ";" \
                 "bootm ${loadaddr} - ${fdtaddr}\0" \

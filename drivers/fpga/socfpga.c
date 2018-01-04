@@ -260,7 +260,8 @@ static int fpgamgr_program_poll_usermode(void)
 int socfpga_load(Altera_desc *desc, const void *rbf_data, size_t rbf_size)
 {
 	unsigned long status;
-
+	int retval;
+	
 	if ((uint32_t)rbf_data & 0x3) {
 		puts("FPGA: Unaligned data, realign to 32bit boundary.\n");
 		return -EINVAL;
@@ -281,6 +282,9 @@ int socfpga_load(Altera_desc *desc, const void *rbf_data, size_t rbf_size)
 	/* Unmap the bridges from NIC-301 */
 	writel(0x1, SOCFPGA_L3REGS_ADDRESS);
 
+	/* Reset fpga dma peripheral requests */
+	reset_dma_peripheral_requests(1);
+
 	/* Initialize the FPGA Manager */
 	status = fpgamgr_program_init();
 	if (status)
@@ -300,5 +304,10 @@ int socfpga_load(Altera_desc *desc, const void *rbf_data, size_t rbf_size)
 		return status;
 
 	/* Ensure the FPGA entering user mode */
-	return fpgamgr_program_poll_usermode();
+	retval = fpgamgr_program_poll_usermode();
+
+	/* deassert resets on fpga dma peripheral requests */
+	reset_dma_peripheral_requests(0);
+	
+	return retval;
 }

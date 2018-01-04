@@ -10,6 +10,7 @@
 #include <asm/arch/fpga_manager.h>
 #include <asm/arch/reset_manager.h>
 #include <asm/arch/system_manager.h>
+#include <qts/reset_config.h>
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -76,8 +77,72 @@ void reset_cpu(ulong addr)
  */
 void reset_deassert_peripherals_handoff(void)
 {
-	writel(0, &reset_manager_base->per_mod_reset);
+	/* permodrst */
+	socfpga_per_reset(RSTMGR_EMAC0, CONFIG_HPS_RESET_ASSERT_EMAC0);
+	socfpga_per_reset(RSTMGR_EMAC1, CONFIG_HPS_RESET_ASSERT_EMAC1);
+	socfpga_per_reset(RSTMGR_USB0, CONFIG_HPS_RESET_ASSERT_USB0);
+	socfpga_per_reset(RSTMGR_USB1, CONFIG_HPS_RESET_ASSERT_USB1);
+	socfpga_per_reset(RSTMGR_NAND, CONFIG_HPS_RESET_ASSERT_NAND);
+	socfpga_per_reset(RSTMGR_QSPI, CONFIG_HPS_RESET_ASSERT_QSPI);
+	socfpga_per_reset(RSTMGR_L4WD0, 0);
+	socfpga_per_reset(RSTMGR_L4WD1, CONFIG_HPS_RESET_ASSERT_L4WD1);
+	socfpga_per_reset(RSTMGR_QSPI, CONFIG_HPS_RESET_ASSERT_QSPI);
+	socfpga_per_reset(RSTMGR_OSC1TIMER0, 0);
+	socfpga_per_reset(RSTMGR_OSC1TIMER1, CONFIG_HPS_RESET_ASSERT_OSC1TIMER1);
+	socfpga_per_reset(RSTMGR_SPTIMER0, CONFIG_HPS_RESET_ASSERT_SPTIMER0);
+	socfpga_per_reset(RSTMGR_SPTIMER1, CONFIG_HPS_RESET_ASSERT_SPTIMER1);
+	socfpga_per_reset(RSTMGR_I2C0, CONFIG_HPS_RESET_ASSERT_I2C0);
+	socfpga_per_reset(RSTMGR_I2C1, CONFIG_HPS_RESET_ASSERT_I2C1);
+	socfpga_per_reset(RSTMGR_I2C2, CONFIG_HPS_RESET_ASSERT_I2C2);
+	socfpga_per_reset(RSTMGR_I2C3, CONFIG_HPS_RESET_ASSERT_I2C3);
+	socfpga_per_reset(RSTMGR_UART0, CONFIG_HPS_RESET_ASSERT_UART0);
+	socfpga_per_reset(RSTMGR_UART1, CONFIG_HPS_RESET_ASSERT_UART1);
+	socfpga_per_reset(RSTMGR_SPIM0, CONFIG_HPS_RESET_ASSERT_SPIM0);
+	socfpga_per_reset(RSTMGR_SPIM1, CONFIG_HPS_RESET_ASSERT_SPIM1);
+	socfpga_per_reset(RSTMGR_SPIS0, CONFIG_HPS_RESET_ASSERT_SPIS0);
+	socfpga_per_reset(RSTMGR_SPIS1, CONFIG_HPS_RESET_ASSERT_SPIS1);
+	socfpga_per_reset(RSTMGR_SDMMC, CONFIG_HPS_RESET_ASSERT_SDMMC);
+	socfpga_per_reset(RSTMGR_CAN0, CONFIG_HPS_RESET_ASSERT_CAN0);
+	socfpga_per_reset(RSTMGR_CAN1, CONFIG_HPS_RESET_ASSERT_CAN1);
+	socfpga_per_reset(RSTMGR_GPIO0, CONFIG_HPS_RESET_ASSERT_GPIO0);
+	socfpga_per_reset(RSTMGR_GPIO1, CONFIG_HPS_RESET_ASSERT_GPIO1);
+	socfpga_per_reset(RSTMGR_GPIO2, CONFIG_HPS_RESET_ASSERT_GPIO2);
+	socfpga_per_reset(RSTMGR_DMA, CONFIG_HPS_RESET_ASSERT_DMA);
+	socfpga_per_reset(RSTMGR_SDR, CONFIG_HPS_RESET_ASSERT_SDR);
+
+	/* warm reset handshake support */
+#if (CONFIG_HPS_RESET_WARMRST_HANDSHAKE_FPGA == 1)
+	setbits_le32(&reset_manager_base->ctrl, RSTMGR_CTRL_FPGAHSEN_MASK);
+#else
+	clrbits_le32(&reset_manager_base->ctrl, RSTMGR_CTRL_FPGAHSEN_MASK);
+#endif
+
+#if (CONFIG_HPS_RESET_WARMRST_HANDSHAKE_ETR == 1)
+	setbits_le32(&reset_manager_base->ctrl, RSTMGR_CTRL_ETRSTALLEN_MASK);
+#else
+	clrbits_le32(&reset_manager_base->ctrl, RSTMGR_CTRL_ETRSTALLEN_MASK);
+#endif
+
+#if (CONFIG_HPS_RESET_WARMRST_HANDSHAKE_SDRAM == 1)
+	setbits_le32(&reset_manager_base->ctrl, RSTMGR_CTRL_SDRSELFREFEN_MASK);
+#else
+	clrbits_le32(&reset_manager_base->ctrl, RSTMGR_CTRL_SDRSELFREFEN_MASK);
+#endif
 }
+
+void reset_dma_peripheral_requests(int assert)
+{
+	printf("setting dma peri reset: %d\n", assert);
+	socfpga_per_reset(RSTMGR_DMAIF(0), CONFIG_HPS_RESET_ASSERT_FPGA_DMA0 || assert);
+	socfpga_per_reset(RSTMGR_DMAIF(1), CONFIG_HPS_RESET_ASSERT_FPGA_DMA1 || assert);
+	socfpga_per_reset(RSTMGR_DMAIF(2), CONFIG_HPS_RESET_ASSERT_FPGA_DMA2 || assert);
+	socfpga_per_reset(RSTMGR_DMAIF(3), CONFIG_HPS_RESET_ASSERT_FPGA_DMA3 || assert);
+	socfpga_per_reset(RSTMGR_DMAIF(4), CONFIG_HPS_RESET_ASSERT_FPGA_DMA4 || assert);
+	socfpga_per_reset(RSTMGR_DMAIF(5), CONFIG_HPS_RESET_ASSERT_FPGA_DMA5 || assert);
+	socfpga_per_reset(RSTMGR_DMAIF(6), CONFIG_HPS_RESET_ASSERT_FPGA_DMA6 || assert);
+	socfpga_per_reset(RSTMGR_DMAIF(7), CONFIG_HPS_RESET_ASSERT_FPGA_DMA7 || assert);
+}
+
 
 #if defined(CONFIG_SOCFPGA_VIRTUAL_TARGET)
 void socfpga_bridges_reset(int enable)
