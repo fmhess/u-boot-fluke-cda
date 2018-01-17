@@ -91,12 +91,13 @@
         "qspiload=sf probe ${qspiloadcs};" \
                 "sf read ${loadaddr} ${qspibootimageaddr} ${bootimagesize};" \
                 "sf read ${fdtaddr} ${qspifdtaddr} ${fdtimagesize};\0" \
-        "qspiroot=/dev/mtdblock4\0" \
-        "qspirootfstype=jffs2\0" \
+        "qspirootpartition=ubi.mtd=4\0" \
+        "qspiroot=ubi0:root-fs\0" \
+        "qspirootfstype=ubifs\0" \
         "qspifpgaaddr=0x800000\0" \
         "qspifpga=sf probe ${qspiloadcs}; sf read ${fpgadata} ${qspifpgaaddr} ${fpgadatasize}; fpga load ${fpga} ${fpgadata} ${fpgadatasize}\0" \
         "qspiboot=setenv bootargs " CONFIG_BOOTARGS \
-                " root=${qspiroot} rw rootfstype=${qspirootfstype} coherent_pool=256K isolcpus=1; "\
+                " ${qspirootpartition} root=${qspiroot} rw rootfstype=${qspirootfstype} coherent_pool=256K isolcpus=1; "\
                 "bootz ${loadaddr} - ${fdtaddr}\0" \
         "fpga=0\0" \
         "fpgadata=0x2000000\0" \
