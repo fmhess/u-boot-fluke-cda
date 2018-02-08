@@ -81,6 +81,10 @@ config TARGET_SOCFPGA_TERASIC_SOCKIT
 config TARGET_SOCFPGA_FLUKE_CDA_NIGHTHAWK
 	bool "Fluke CDA Nighthawk (Cyclone V)"
 	select TARGET_SOCFPGA_CYCLONE5
+
+config TARGET_SOCFPGA_FLUKE_CDA_VANQUISH
+	bool "Fluke CDA Vanquish (Cyclone V)"
+	select TARGET_SOCFPGA_CYCLONE5
 endchoice
 
 config SYS_BOARD
@@ -94,6 +98,7 @@ config SYS_BOARD
 	default "sr1500" if TARGET_SOCFPGA_SR1500
 	default "vining_fpga" if TARGET_SOCFPGA_SAMTEC_VINING_FPGA
 	default "fluke-cda-nighthawk" if TARGET_SOCFPGA_FLUKE_CDA_NIGHTHAWK
+	default "fluke-cda-vanquish" if TARGET_SOCFPGA_FLUKE_CDA_VANQUISH
 
 config SYS_VENDOR
 	default "altera" if TARGET_SOCFPGA_ARRIA5_SOCDK
@@ -104,6 +109,7 @@ config SYS_VENDOR
 	default "terasic" if TARGET_SOCFPGA_TERASIC_DE0_NANO
 	default "terasic" if TARGET_SOCFPGA_TERASIC_SOCKIT
 	default "fluke" if TARGET_SOCFPGA_FLUKE_CDA_NIGHTHAWK
+	default "fluke" if TARGET_SOCFPGA_FLUKE_CDA_VANQUISH
 
 config SYS_SOC
 	default "socfpga"
@@ -119,5 +125,6 @@ config SYS_CONFIG_NAME
 	default "socfpga_sr1500" if TARGET_SOCFPGA_SR1500
 	default "socfpga_vining_fpga" if TARGET_SOCFPGA_SAMTEC_VINING_FPGA
 	default "socfpga_fluke_cda_nighthawk" if TARGET_SOCFPGA_FLUKE_CDA_NIGHTHAWK
+	default "socfpga_fluke_cda_vanquish" if TARGET_SOCFPGA_FLUKE_CDA_VANQUISH
 
 endif
