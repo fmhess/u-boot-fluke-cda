@@ -27,7 +27,7 @@ int checkboard(void)
 #ifdef CONFIG_SOCFPGA_VIRTUAL_TARGET
 	puts("BOARD : Altera VTDEV5XS1 Virtual Board\n");
 #else
-	puts("BOARD : Fluke Nighthawk A9 Board Rev002\n");
+	puts("BOARD : Fluke Vanquish XX Board Rev00X\n");
 #endif
 	return 0;
 }
