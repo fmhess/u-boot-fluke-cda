@@ -68,6 +68,12 @@
 #define CONFIG_PHY_MICREL_KSZ9021
 #endif
 
+/* enable date env command */
+#define CONFIG_CMD_DATE
+#define CONFIG_RTC_PCF8563
+#define CONFIG_SYS_RTC_BUS_NUM 1
+#define CONFIG_SYS_I2C_RTC_ADDR 0X51
+
 /* environment setting for MMC */
 #define CONFIG_ENV_IS_IN_SPI_FLASH
 
