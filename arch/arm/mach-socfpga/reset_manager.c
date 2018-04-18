@@ -54,6 +54,10 @@ void socfpga_per_reset_all(void)
 
 	writel(~l4wd0, &reset_manager_base->per_mod_reset);
 	writel(0xffffffff, &reset_manager_base->per2_mod_reset);
+
+	/* reset the fpga user logic in an attempt to prevent frame buffer rotator
+	 * from crashing u-boot on warm reboots. */
+	writel(0x40, &reset_manager_base->misc_mod_reset);
 }
 
 /*
@@ -128,6 +132,10 @@ void reset_deassert_peripherals_handoff(void)
 #else
 	clrbits_le32(&reset_manager_base->ctrl, RSTMGR_CTRL_SDRSELFREFEN_MASK);
 #endif
+
+	/* deassert reset on the fpga user logic (since we made socfpga_per_reset_all()
+	 * assert the fpga user logic reset) */
+	writel(0x0, &reset_manager_base->misc_mod_reset);
 }
 
 void reset_dma_peripheral_requests(int assert)
