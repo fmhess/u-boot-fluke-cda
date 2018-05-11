@@ -1,0 +1,204 @@
+/*
+ * Richmond device tree for use by u-boot
+ */
+#include "socfpga_cyclone5.dtsi"
+
+/ {
+	model = "Altera SOCFPGA Cyclone V";
+	compatible = "altr,socfpga-cyclone5", "altr,socfpga";
+
+	chosen {
+		bootargs = "earlyprintk";
+		stdout-path = "serial0:115200n8";
+	};
+
+	memory {
+		name = "memory";
+		device_type = "memory";
+		reg = <0x0 0x80000000>;
+	};
+
+	aliases {
+		ethernet0 = &gmac1;
+	};
+
+    soc {
+        u-boot,dm-pre-reloc;
+    };
+};
+
+&gmac1 {
+	status = "okay";
+	phy-mode = "rgmii";
+	snps,phy-addr = < 0xFFFFFFFF >;
+	phy-addr = < 0xFFFFFFFF >;
+	rxd0-skew-ps = <0>;
+	rxd1-skew-ps = <0>;
+	rxd2-skew-ps = <0>;
+	rxd3-skew-ps = <0>;
+	txen-skew-ps = <0>;
+	txc-skew-ps = <3000>;
+	rxdv-skew-ps = <0>;
+	rxc-skew-ps = <3000>;
+	max-frame-size = <3800>;
+    tx-fifo-depth = <4096>; /* embeddedsw.dts.params.tx-fifo-depth type NUMBER */
+    rx-fifo-depth = <4096>; /* embeddedsw.dts.params.rx-fifo-depth type NUMBER */
+};
+
+&mmc0 {
+	status = "okay";
+};
+
+&i2c0 {
+	status = "okay";
+	speed-mode = <0>;
+
+	eeprom@51 {
+		compatible = "atmel,24c32";
+		reg = <0x51>;
+		pagesize = <32>;
+   };
+};
+
+&i2c1 {
+	status = "okay";
+	speed-mode = <0>;
+
+	rtc@51 {
+		compatible = "rtc,pcf8563";
+		reg = <0x51>;
+   };
+};
+
+&spi0 {
+		#address-cells = < 1 >;  
+		#size-cells = < 0 >;  
+		bus-num = < 0 >;   
+		num-chipselect = < 4 >;  
+		status = "okay";   
+
+		temp@1 {
+				compatible = "hwmon,adt7302";
+				reg = < 1 >;  
+				spi-max-frequency = <1000000>;
+                spi-cpha = < 1 >;
+                spi-cpol = < 1 >;
+				enable-dma = < 1 >; 
+		};
+
+		spidev@0 {
+				compatible = "spidev";
+				reg = < 0 >;
+				spi-max-frequency = < 100000000 >;
+				enable-dma = < 1 >;
+		};
+};
+
+&qspi {
+    compatible = "cadence,qspi";
+    u-boot,dm-pre-reloc;
+	status = "okay";
+	flash0: n25q512a@0 {
+        u-boot,dm-pre-reloc;
+		#address-cells = <1>;
+		#size-cells = <1>;
+		compatible = "n25q512a", "spi-flash";
+		reg = <0>;      /* chip select */
+		spi-max-frequency = <50000000>;
+
+		cdns,page-size = <256>;
+		cdns,block-size = <16>;
+		cdns,read-delay = <4>;
+		cdns,tshsl-ns = <50>;
+		cdns,tsd2d-ns = <50>;
+		cdns,tchsh-ns = <4>;
+		cdns,tslch-ns = <4>;
+        cdns,is-decoded-cs = <0>;
+        cdns,trigger-address = <0x00000000>;
+        /* u-boot version of cadence_qspi currently doesn't expect the "cdns," prefix */
+        page-size = <256>;
+        block-size = <16>;
+        read-delay = <4>;
+        tshsl-ns = <50>;
+        tsd2d-ns = <50>;
+        tchsh-ns = <4>;
+        tslch-ns = <4>;
+        is-decoded-cs = <0>;
+
+
+		part0: partition@0 {
+					label = "Flash 0 Raw Data";	/* appended from boardinfo */
+					reg = < 0x00000000 0x00800000 >;	/* appended from boardinfo */
+		}; //end partition@0 (part0)
+
+		part1: partition@800000 {
+					label = "FPGA Image";	/* appended from boardinfo */
+					reg = < 0x00800000 0x0600000 >;	/* appended from boardinfo */
+		}; //end partition@800000 (part1)
+
+		part2: partition@3800000 {
+					label = "Splash Screen Image";	/* appended from boardinfo */
+					reg = < 0x0e00000 0x00200000 >;	/* appended from boardinfo */
+		}; //end partition@3800000 (part2)
+
+		part3: partition@3e00000 {
+					label = "Flash 0 FS partition";	/* appended from boardinfo */
+					reg = < 0x01000000 0x03000000 >;	/* appended from boardinfo */
+		}; //end partition@3e00000 (part3)
+	};
+
+	flash1: n25q00@1 {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		compatible = "n25q00", "spi-flash";
+		reg = <1>;      /* chip select */
+		spi-max-frequency = <50000000>;
+
+		cdns,page-size = <256>;
+		cdns,block-size = <16>;
+		cdns,read-delay = <4>;
+		cdns,tshsl-ns = <50>;
+		cdns,tsd2d-ns = <50>;
+		cdns,tchsh-ns = <4>;
+		cdns,tslch-ns = <4>;
+
+		part4: partition@0 {
+					label = "Flash 1 Root FS";	/* appended from boardinfo */
+					reg = < 0x00000000 0x08000000 >;	/* appended from boardinfo */
+		}; //end partition@0 (part4)
+	}; //end n25q00@1 (flash1)		
+};
+
+&uart0 {
+    u-boot,dm-pre-reloc;
+	status = "okay";
+};
+
+&uart1 {
+    u-boot,dm-pre-reloc;
+	status = "okay";
+};
+
+&usb0 {
+	status = "okay";
+};
+
+&usb1 {
+	status = "okay";
+};
+
+&gpio0 {
+	status = "okay";
+};
+
+&gpio1 {
+	status = "okay";
+};
+
+&gpio2 {
+	status = "okay";
+};
+
+&can0 {
+	status = "okay";
+};
