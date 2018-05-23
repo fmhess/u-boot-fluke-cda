@@ -87,7 +87,7 @@
         "bootimagesize=0x600000\0" \
         "fdtaddr=100\0" \
         "fdtimage=Vanquish_soc.dtb\0" \
-        "fdtimagesize=0x7F00\0" \
+        "fdtimagesize=0xFFFF\0" \
         "bootm ${loadaddr} - ${fdtaddr}\0" \
         "mmcroot=/dev/mmcblk0p2\0" \
         "mmcboot=setenv bootargs " CONFIG_BOOTARGS \
