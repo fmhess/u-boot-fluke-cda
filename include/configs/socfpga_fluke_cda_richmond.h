@@ -103,7 +103,7 @@
         "qspifpgaaddr=0x800000\0" \
         "qspifpga=sf probe ${qspiloadcs}; sf read ${fpgadata} ${qspifpgaaddr} ${fpgadatasize}; fpga load ${fpga} ${fpgadata} ${fpgadatasize}\0" \
         "qspiboot=setenv bootargs " CONFIG_BOOTARGS \
-                " ${qspirootpartition} root=${qspiroot} rw rootfstype=${qspirootfstype} vt.global_cursor_default=0 coherent_pool=256K isolcpus=1; "\
+                " ${qspirootpartition} root=${qspiroot} rw rootfstype=${qspirootfstype} vt.global_cursor_default=0 vt.cur_default=1 coherent_pool=256K isolcpus=1; "\
                 "bootz ${loadaddr} - ${fdtaddr}\0" \
         "fpga=0\0" \
         "fpgadata=0x2000000\0" \
