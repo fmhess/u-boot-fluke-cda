@@ -89,6 +89,10 @@ config TARGET_SOCFPGA_FLUKE_CDA_VANQUISH
 config TARGET_SOCFPGA_FLUKE_CDA_RICHMOND
 	bool "Fluke CDA Richmond (Cyclone V)"
 	select TARGET_SOCFPGA_CYCLONE5
+
+config TARGET_SOCFPGA_FLUKE_CDA_CALDERA
+	bool "Fluke CDA Caldera (Cyclone V)"
+	select TARGET_SOCFPGA_CYCLONE5
 endchoice
 
 config SYS_BOARD
@@ -104,6 +108,7 @@ config SYS_BOARD
 	default "fluke-cda-nighthawk" if TARGET_SOCFPGA_FLUKE_CDA_NIGHTHAWK
 	default "fluke-cda-vanquish" if TARGET_SOCFPGA_FLUKE_CDA_VANQUISH
 	default "fluke-cda-richmond" if TARGET_SOCFPGA_FLUKE_CDA_RICHMOND
+	default "fluke-cda-caldera" if TARGET_SOCFPGA_FLUKE_CDA_CALDERA
 
 config SYS_VENDOR
 	default "altera" if TARGET_SOCFPGA_ARRIA5_SOCDK
@@ -116,6 +121,7 @@ config SYS_VENDOR
 	default "fluke" if TARGET_SOCFPGA_FLUKE_CDA_NIGHTHAWK
 	default "fluke" if TARGET_SOCFPGA_FLUKE_CDA_VANQUISH
 	default "fluke" if TARGET_SOCFPGA_FLUKE_CDA_RICHMOND
+	default "fluke" if TARGET_SOCFPGA_FLUKE_CDA_CALDERA
 
 config SYS_SOC
 	default "socfpga"
@@ -133,5 +139,6 @@ config SYS_CONFIG_NAME
 	default "socfpga_fluke_cda_nighthawk" if TARGET_SOCFPGA_FLUKE_CDA_NIGHTHAWK
 	default "socfpga_fluke_cda_vanquish" if TARGET_SOCFPGA_FLUKE_CDA_VANQUISH
 	default "socfpga_fluke_cda_richmond" if TARGET_SOCFPGA_FLUKE_CDA_RICHMOND
+	default "socfpga_fluke_cda_caldera" if TARGET_SOCFPGA_FLUKE_CDA_CALDERA
 
 endif
