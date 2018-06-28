@@ -126,6 +126,7 @@ dtb-$(CONFIG_ARCH_SOCFPGA) +=				\
 	socfpga_fluke_cda_nighthawk.dtb			\
 	socfpga_fluke_cda_vanquish.dtb			\
 	socfpga_fluke_cda_richmond.dtb			\
+	socfpga_fluke_cda_caldera.dtb			\
 	socfpga_arria5_socdk.dtb			\
 	socfpga_cyclone5_is1.dtb			\
 	socfpga_cyclone5_mcvevk.dtb			\
