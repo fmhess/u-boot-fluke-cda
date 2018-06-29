@@ -87,7 +87,7 @@
 &qspi {
     compatible = "cadence,qspi";
     u-boot,dm-pre-reloc;
-    status = "okay"
+    status = "okay";
     flash0: n25q512a@0 {
         u-boot,dm-pre-reloc;
         compatible = "n25q512a";	/* appended from boardinfo */
@@ -161,10 +161,6 @@
 };
 
 &uart1 {
-    status = "okay";
-};
-
-&uart2 {
     status = "okay";
 };
 
