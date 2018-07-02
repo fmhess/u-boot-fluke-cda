@@ -90,17 +90,17 @@
     status = "okay";
     flash0: n25q512a@0 {
         u-boot,dm-pre-reloc;
-        compatible = "n25q512a";	/* appended from boardinfo */
+        compatible = "n25q512a";
         reg = <0>;	/* appended from boardinfo */
-        spi-max-frequency = <50000000>;	/* appended from boardinfo */
+        spi-max-frequency = <50000000>;
 
-        cdns,page-size = <256>;	/* appended from boardinfo */
-        cdns,block-size = <16>;	/* appended from boardinfo */
-        cdns,read-delay = <4>;	/* appended from boardinfo */
-        cdns,tshsl-ns = <50>;	/* appended from boardinfo */
-        cdns,tsd2d-ns = <50>;	/* appended from boardinfo */
-        cdns,tchsh-ns = <4>;	/* appended from boardinfo */
-        cdns,tslch-ns = <4>;	/* appended from boardinfo */
+        cdns,page-size = <256>;
+        cdns,block-size = <16>;
+        cdns,read-delay = <4>;
+        cdns,tshsl-ns = <50>;
+        cdns,tsd2d-ns = <50>;
+        cdns,tchsh-ns = <4>;
+        cdns,tslch-ns = <4>;
         cdns,is-decoded-cs = <0>;
         cdns,trigger-address = <0x00000000>;
         /* u-boot version of cadence_qspi currently doesn't expect the "cdns," prefix */
@@ -115,42 +115,42 @@
 
 
 	    part0: partition@0 {
-	        label = "Flash 0 Raw Data";	/* appended from boardinfo */
-	        reg = <0x00000000 0x00800000>;	/* appended from boardinfo */
+	        label = "Flash 0 Raw Data";
+	        reg = <0x00000000 0x00800000>;
 	    }; //end partition@0 (part0)
 
 	    part1: partition@800000 {
-	        label = "FPGA Image";	/* appended from boardinfo */
-	        reg = <0x00800000 0x00600000>;	/* appended from boardinfo */
+	        label = "FPGA Image";
+	        reg = <0x00800000 0x00600000>;
 	    }; //end partition@800000 (part1)
 
 	    part2: partition@0e00000 {
-	        label = "Splash Screen Image";	/* appended from boardinfo */
-	        reg = <0x00e00000 0x00200000>;	/* appended from boardinfo */
+	        label = "Splash Screen Image";
+	        reg = <0x00e00000 0x00200000>;
 	    }; //end partition@3800000 (part2)
 
 	    part3: partition@1000000 {
-	        label = "Aux FS Image";	/* appended from boardinfo */
-	        reg = <0x01000000 0x03000000>;	/* appended from boardinfo */
+	        label = "Aux FS Image";
+	        reg = <0x01000000 0x03000000>;
 	    }; //end partition@3e00000 (part3)
 	}; //end n25q512a@0 (flash0)
 
 	flash1: n25q02@1 {
-        #address-cells = <1>;	/* appended from boardinfo */
-        #size-cells = <1>;	/* appended from boardinfo */
-        compatible = "n25q02";	/* appended from boardinfo */
+        #address-cells = <1>;
+        #size-cells = <1>;
+        compatible = "n25q02";
         reg = <1>;	/* Chip Select */
-        spi-max-frequency = <50000000>;	/* appended from boardinfo */
-        cdns,page-size = <256>;	/* appended from boardinfo */
-        cdns,block-size = <16>;	/* appended from boardinfo */
-        cdns,read-delay = <4>;	/* appended from boardinfo */
-        cdns,tshsl-ns = <50>;	/* appended from boardinfo */
-        cdns,tsd2d-ns = <50>;	/* appended from boardinfo */
-        cdns,tchsh-ns = <4>;	/* appended from boardinfo */
-        cdns,tslch-ns = <4>;	/* appended from boardinfo */
+        spi-max-frequency = <50000000>;
+        cdns,page-size = <256>;
+        cdns,block-size = <16>;
+        cdns,read-delay = <4>;
+        cdns,tshsl-ns = <50>;
+        cdns,tsd2d-ns = <50>;
+        cdns,tchsh-ns = <4>;
+        cdns,tslch-ns = <4>;
 
         part4: partition@0 {
-            label = "Root FS (ubifs)";	/* appended from boardinfo */
+            label = "Root FS (ubifs)";
             reg = <0x00000000 0x10000000>;	/* appended from boardinfo */
         }; //end partition@0 (part4)
     }; //end n25q02@1 (flash1)
@@ -174,5 +174,5 @@
 
 &gpio0 {
     status = "okay";
-}
+};
 
