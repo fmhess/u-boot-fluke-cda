@@ -90,7 +90,9 @@
     status = "okay";
     flash0: n25q512a@0 {
         u-boot,dm-pre-reloc;
-        compatible = "n25q512a";
+        #address-cells = <1>;
+        #size-cells = <1>;
+        compatible = "n25q512a", "spi-flash";
         reg = <0>;	/* appended from boardinfo */
         spi-max-frequency = <50000000>;
 
@@ -138,7 +140,7 @@
 	flash1: n25q02@1 {
         #address-cells = <1>;
         #size-cells = <1>;
-        compatible = "n25q02";
+        compatible = "n25q02", "spi-flash";
         reg = <1>;	/* Chip Select */
         spi-max-frequency = <50000000>;
         cdns,page-size = <256>;
