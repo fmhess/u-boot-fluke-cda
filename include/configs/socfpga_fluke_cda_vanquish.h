@@ -29,6 +29,7 @@
 /* Define machine type for Cyclone 5 */
 #define CONFIG_MACH_TYPE 4251
 
+
 /*
  *Define this variable to reservvee a region of protected ram for the frame buffer rotaator 
  */
