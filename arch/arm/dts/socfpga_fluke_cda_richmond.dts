@@ -124,27 +124,6 @@
         tchsh-ns = <4>;
         tslch-ns = <4>;
         is-decoded-cs = <0>;
-
-
-		part0: partition@0 {
-					label = "Flash 0 Raw Data";	/* appended from boardinfo */
-					reg = < 0x00000000 0x00800000 >;	/* appended from boardinfo */
-		}; //end partition@0 (part0)
-
-		part1: partition@800000 {
-					label = "FPGA Image";	/* appended from boardinfo */
-					reg = < 0x00800000 0x0600000 >;	/* appended from boardinfo */
-		}; //end partition@800000 (part1)
-
-		part2: partition@3800000 {
-					label = "Splash Screen Image";	/* appended from boardinfo */
-					reg = < 0x0e00000 0x00200000 >;	/* appended from boardinfo */
-		}; //end partition@3800000 (part2)
-
-		part3: partition@3e00000 {
-					label = "Flash 0 FS partition";	/* appended from boardinfo */
-					reg = < 0x01000000 0x03000000 >;	/* appended from boardinfo */
-		}; //end partition@3e00000 (part3)
 	};
 
 	flash1: n25q00@1 {
@@ -161,11 +140,6 @@
 		cdns,tsd2d-ns = <50>;
 		cdns,tchsh-ns = <4>;
 		cdns,tslch-ns = <4>;
-
-		part4: partition@0 {
-					label = "Flash 1 Root FS";	/* appended from boardinfo */
-					reg = < 0x00000000 0x08000000 >;	/* appended from boardinfo */
-		}; //end partition@0 (part4)
 	}; //end n25q00@1 (flash1)		
 };
 
