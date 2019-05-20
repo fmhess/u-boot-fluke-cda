@@ -125,7 +125,7 @@ const u8 sys_mgr_init_table[] = {
 	0, /* GPLINMUX68 */
 	0, /* GPLINMUX69 */
 	0, /* GPLINMUX70 */
-	1, /* GPLMUX0 */
+	0, /* GPLMUX0 */
 	1, /* GPLMUX1 */
 	1, /* GPLMUX2 */
 	1, /* GPLMUX3 */
@@ -210,7 +210,7 @@ const u8 sys_mgr_init_table[] = {
 	0, /* CAN1USEFPGA */
 	0, /* USB1USEFPGA */
 	0, /* I2C3USEFPGA */
-	1, /* I2C2USEFPGA */
+	0, /* I2C2USEFPGA */
 	0, /* I2C1USEFPGA */
 	0, /* SPIM1USEFPGA */
 	0, /* USB0USEFPGA */
