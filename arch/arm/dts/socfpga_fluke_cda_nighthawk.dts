@@ -24,7 +24,14 @@
 
     soc {
         u-boot,dm-pre-reloc;
-    };
+
+        regulator_3_3v: vcc3p3-regulator {
+            compatible = "regulator-fixed";	/* appended from boardinfo */
+            regulator-name = "3.3V";	/* appended from boardinfo */
+            regulator-min-microvolt = <3300000>;	/* appended from boardinfo */
+            regulator-max-microvolt = <3300000>;	/* appended from boardinfo */
+        }; //end vcc3p3-regulator (regulator_3_3v)
+    }; //end soc
 };
 
 
@@ -183,3 +190,15 @@ u-boot,dm-pre-reloc;
     status = "okay";
 };
 
+&mmc {
+    status = "okay";
+    cd = <&gpio0 9 0>;	/* appended from boardinfo */
+    cd-gpios = <&porta 9 0>;	/* appended from boardinfo */
+    vmmc-supply = <&regulator_3_3v>;	/* appended from boardinfo */
+    vqmmc-supply = <&regulator_3_3v>;	/* appended from boardinfo */
+
+    slot_0: slot@0 {
+        reg = <0>;	/* appended from boardinfo */
+        bus-width = <4>;	/* appended from boardinfo */
+    }; //end slot@0 (slot_0)
+};
