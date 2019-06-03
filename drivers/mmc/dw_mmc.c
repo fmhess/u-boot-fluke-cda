@@ -256,6 +256,11 @@ static int dwmci_send_cmd(struct mmc *mmc, struct mmc_cmd *cmd,
 	if (cmd->resp_type & MMC_RSP_CRC)
 		flags |= DWMCI_CMD_CHECK_CRC;
 
+	if (cmd->cmdidx == MMC_CMD_GO_IDLE_STATE)
+	{
+		flags |= DWMCI_CMD_SEND_INIT;
+	}
+	
 	flags |= (cmd->cmdidx | DWMCI_CMD_START | DWMCI_CMD_USE_HOLD_REG);
 
 	debug("Sending CMD%d\n",cmd->cmdidx);
@@ -321,10 +326,23 @@ static int dwmci_send_cmd(struct mmc *mmc, struct mmc_cmd *cmd,
 	return ret;
 }
 
+int wait_for_cmd_start_clear(struct dwmci_host *host)
+{
+	u32 status;
+	int timeout = 10000;
+	do {
+		status = dwmci_readl(host, DWMCI_CMD);
+		if (timeout-- < 0) {
+			debug("%s: Timeout!\n", __func__);
+			return -ETIMEDOUT;
+		}
+	} while (status & DWMCI_CMD_START);
+	return 0;
+}
+
 static int dwmci_setup_bus(struct dwmci_host *host, u32 freq)
 {
-	u32 div, status;
-	int timeout = 10000;
+	u32 div;
 	unsigned long sclk;
 
 	if ((freq == host->clock) || (freq == 0))
@@ -348,20 +366,20 @@ static int dwmci_setup_bus(struct dwmci_host *host, u32 freq)
 	else
 		div = DIV_ROUND_UP(sclk, 2 * freq);
 
+	if (wait_for_cmd_start_clear(host)) return -ETIMEDOUT;
+
 	dwmci_writel(host, DWMCI_CLKENA, 0);
 	dwmci_writel(host, DWMCI_CLKSRC, 0);
+	dwmci_writel(host, DWMCI_CMD, DWMCI_CMD_PRV_DAT_WAIT |
+			DWMCI_CMD_UPD_CLK | DWMCI_CMD_START);
+
+	if (wait_for_cmd_start_clear(host)) return -ETIMEDOUT;
 
 	dwmci_writel(host, DWMCI_CLKDIV, div);
 	dwmci_writel(host, DWMCI_CMD, DWMCI_CMD_PRV_DAT_WAIT |
 			DWMCI_CMD_UPD_CLK | DWMCI_CMD_START);
 
-	do {
-		status = dwmci_readl(host, DWMCI_CMD);
-		if (timeout-- < 0) {
-			debug("%s: Timeout!\n", __func__);
-			return -ETIMEDOUT;
-		}
-	} while (status & DWMCI_CMD_START);
+	if (wait_for_cmd_start_clear(host)) return -ETIMEDOUT;
 
 	dwmci_writel(host, DWMCI_CLKENA, DWMCI_CLKEN_ENABLE |
 			DWMCI_CLKEN_LOW_PWR);
@@ -369,14 +387,7 @@ static int dwmci_setup_bus(struct dwmci_host *host, u32 freq)
 	dwmci_writel(host, DWMCI_CMD, DWMCI_CMD_PRV_DAT_WAIT |
 			DWMCI_CMD_UPD_CLK | DWMCI_CMD_START);
 
-	timeout = 10000;
-	do {
-		status = dwmci_readl(host, DWMCI_CMD);
-		if (timeout-- < 0) {
-			debug("%s: Timeout!\n", __func__);
-			return -ETIMEDOUT;
-		}
-	} while (status & DWMCI_CMD_START);
+	if (wait_for_cmd_start_clear(host)) return -ETIMEDOUT;
 
 	host->clock = freq;
 
@@ -440,9 +451,6 @@ static int dwmci_init(struct mmc *mmc)
 		return -EIO;
 	}
 
-	/* Enumerate at 400KHz */
-	dwmci_setup_bus(host, mmc->cfg->f_min);
-
 	dwmci_writel(host, DWMCI_RINTSTS, 0xFFFFFFFF);
 	dwmci_writel(host, DWMCI_INTMASK, 0);
 
@@ -461,8 +469,8 @@ static int dwmci_init(struct mmc *mmc)
 	}
 	dwmci_writel(host, DWMCI_FIFOTH, host->fifoth_val);
 
-	dwmci_writel(host, DWMCI_CLKENA, 0);
-	dwmci_writel(host, DWMCI_CLKSRC, 0);
+	/* Enumerate at 400KHz */
+	dwmci_setup_bus(host, mmc->cfg->f_min);
 
 	return 0;
 }
