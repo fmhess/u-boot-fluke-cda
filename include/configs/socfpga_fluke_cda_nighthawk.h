@@ -72,6 +72,11 @@
 /* environment setting for MMC */
 #define CONFIG_ENV_IS_IN_SPI_FLASH
 
+/* Enabled gzwrite command for use in writing the initial partitioned disk 
+ * image containing the root fs.  They are highly compressible so this lets us
+ * initialize the eMMC much more quickly. */ 
+#define CONFIG_CMD_UNZIP
+
 /* Extra Environment */
 #define CONFIG_EXTRA_ENV_SETTINGS \
         "verify=n\0" \
