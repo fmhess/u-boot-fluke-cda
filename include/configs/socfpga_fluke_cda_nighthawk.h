@@ -46,12 +46,12 @@
 
 /* Booting Linux */
 #define CONFIG_BOOTFILE         "zImage"
-#define CONFIG_BOOTARGS         "console=ttyS0," __stringify(CONFIG_BAUDRATE)
+#define CONFIG_BOOTARGS         "console=ttyS0," __stringify(CONFIG_BAUDRATE) " vt.global_cursor_default=0 vt.cur_default=1 coherent_pool=256K isolcpus=1"
 #ifdef CONFIG_SOCFPGA_VIRTUAL_TARGET
 #define CONFIG_BOOTCOMMAND      "run ramboot"
 #else
 
-#define CONFIG_BOOTCOMMAND      "run qspifpga; bridge enable; run qspiload; run qspiboot"
+#define CONFIG_BOOTCOMMAND      "run qspifpga; bridge enable; run qspiload; run mmcboot"
 
 #endif
 #define CONFIG_LOADADDR         0x1000000
@@ -89,9 +89,9 @@
         "fdtimage=Nighthawk_soc.dtb\0" \
         "fdtimagesize=0xFFFF\0" \
         "bootm ${loadaddr} - ${fdtaddr}\0" \
-        "mmcroot=/dev/mmcblk0p2\0" \
+        "mmcroot=/dev/mmcblk0p1\0" \
         "mmcboot=setenv bootargs " CONFIG_BOOTARGS \
-                " root=${mmcroot} rw rootwait;" \
+                " root=${mmcroot} rw rootwait rootfstype=ext4; " \
                 "bootz ${loadaddr} - ${fdtaddr}\0" \
         "mmcload=mmc rescan;" \
                 "load mmc 0:1 ${loadaddr} ${bootimage};" \
@@ -108,7 +108,7 @@
         "qspifpgaaddr=0x800000\0" \
         "qspifpga=sf probe ${qspiloadcs}; sf read ${fpgadata} ${qspifpgaaddr} ${fpgadatasize}; fpga load ${fpga} ${fpgadata} ${fpgadatasize}\0" \
         "qspiboot=setenv bootargs " CONFIG_BOOTARGS \
-                " ${qspirootpartition} root=${qspiroot} rw rootfstype=${qspirootfstype} vt.global_cursor_default=0 vt.cur_default=1 coherent_pool=256K isolcpus=1; "\
+                " ${qspirootpartition} root=${qspiroot} rw rootfstype=${qspirootfstype}; "\
                 "bootz ${loadaddr} - ${fdtaddr}\0" \
         "fpga=0\0" \
         "fpgadata=0x2000000\0" \
