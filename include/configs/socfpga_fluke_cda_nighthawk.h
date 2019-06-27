@@ -72,23 +72,52 @@
 /* environment setting for MMC */
 #define CONFIG_ENV_IS_IN_SPI_FLASH
 
+/* support for booting recue kernel with initrd */
+#define CONFIG_SUPPORT_RAW_INITRD
+#define CONFIG_INITRD_TAG
+
 /* Enabled gzwrite command for use in writing the initial partitioned disk 
  * image containing the root fs.  They are highly compressible so this lets us
  * initialize the eMMC much more quickly. */ 
 #define CONFIG_CMD_UNZIP
 
-/* Extra Environment */
+/* Extra Environment
+ * 
+ * initrd_high must be set for rescue kernel boot, since otherwise it defaults to 0x400000 (64M)
+ * which does not allow enough free space for the initrd image, and u-boot will have an allocation
+ * error when bootz is run.
+ *
+ * We are using the "backup" kernel for the rescue boot ("backup" meaning the kernel
+ * which can be copied over the production kernel when a rescue restore is performed).  We may
+ * at some point want to use a seperate kernel compiled with different kernel options as the
+ * rescue kernel, or a simplified device tree, but we are keeping it simple for now.
+ *
+ * Note we are currently use the production fpga image always, which could potentially
+ * be an issue since the eMMC requires the fpga to be programmed in order to operate.
+ * We could be more sophisticated about handling this if the fpga loading were moved
+ * from u-boot into the rescue kernel.
+ * 
+ * The "backup" kernel/u-boot/device trees/fpga image/etc are offset by 0x2000000 (32M) in the qspi from 
+ * the primary ones.
+ */
 #define CONFIG_EXTRA_ENV_SETTINGS \
         "verify=n\0" \
         "loadaddr=" __stringify(CONFIG_SYS_LOAD_ADDR) "\0" \
-        "ramboot=setenv bootargs " CONFIG_BOOTARGS ";" \
-                "bootm ${loadaddr} - ${fdtaddr}\0" \
+        "initrd_high=0x40000000\0" \
+        "initrdloadaddr=0x4000000\0" \
+        "compressedinitrdmaxsize=0x2000000\0" \
+        "ramboot=setenv bootargs " "console=ttyS0," __stringify(CONFIG_BAUDRATE) " root=/dev/ram0 rw rootfstype=ext4; ramdisk_size=65536;" \
+                "bootz ${loadaddr} ${initrdloadaddr}:${compressedinitrdmaxsize} ${fdtaddr}\0" \
+        "backupqspibootimageaddr=0x2200000\0" \
+        "backupqspifdtaddr=0x2000100\0" \
+        "rescueqspiload=sf probe ${qspiloadcs};sf read ${loadaddr} ${backupqspibootimageaddr} ${bootimagesize};sf read ${fdtaddr} ${backupqspifdtaddr} ${fdtimagesize}\0" \
+        "rescueqspiinitrdload=sf probe 1;sf read ${initrdloadaddr} 0x0 ${compressedinitrdmaxsize}\0" \
+        "rescuebootcmd=run qspifpga; bridge enable; run rescueqspiload; run rescueqspiinitrdload; run ramboot\0" \
         "bootimage=zImage\0" \
         "bootimagesize=0x600000\0" \
         "fdtaddr=100\0" \
         "fdtimage=Nighthawk_soc.dtb\0" \
         "fdtimagesize=0xFFFF\0" \
-        "bootm ${loadaddr} - ${fdtaddr}\0" \
         "mmcroot=/dev/mmcblk0p1\0" \
         "mmcboot=setenv bootargs " CONFIG_BOOTARGS \
                 " root=${mmcroot} rw rootwait rootfstype=ext4; " \
