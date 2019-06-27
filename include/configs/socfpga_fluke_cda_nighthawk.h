@@ -103,13 +103,13 @@
 #define CONFIG_EXTRA_ENV_SETTINGS \
         "verify=n\0" \
         "loadaddr=" __stringify(CONFIG_SYS_LOAD_ADDR) "\0" \
-        "initrd_high=0x40000000\0" \
+        "initrd_high=0x20000000\0" \
         "initrdloadaddr=0x4000000\0" \
         "compressedinitrdmaxsize=0x2000000\0" \
-        "ramboot=setenv bootargs " "console=ttyS0," __stringify(CONFIG_BAUDRATE) " root=/dev/ram0 rw rootfstype=ext4; ramdisk_size=65536;" \
+        "ramboot=setenv bootargs " "console=ttyS0," __stringify(CONFIG_BAUDRATE) " root=/dev/ram0 rw rootfstype=ext4 ramdisk_size=65536;" \
                 "bootz ${loadaddr} ${initrdloadaddr}:${compressedinitrdmaxsize} ${fdtaddr}\0" \
         "backupqspibootimageaddr=0x2200000\0" \
-        "backupqspifdtaddr=0x2000100\0" \
+        "backupqspifdtaddr=0x2110000\0" \
         "rescueqspiload=sf probe ${qspiloadcs};sf read ${loadaddr} ${backupqspibootimageaddr} ${bootimagesize};sf read ${fdtaddr} ${backupqspifdtaddr} ${fdtimagesize}\0" \
         "rescueqspiinitrdload=sf probe 1;sf read ${initrdloadaddr} 0x0 ${compressedinitrdmaxsize}\0" \
         "rescuebootcmd=run qspifpga; bridge enable; run rescueqspiload; run rescueqspiinitrdload; run ramboot\0" \
