@@ -85,7 +85,8 @@
  * 
  * initrd_high must be set for rescue kernel boot, since otherwise it defaults to 0x400000 (64M)
  * which does not allow enough free space for the initrd image, and u-boot will have an allocation
- * error when bootz is run.
+ * error when bootz is run.  It also must not be set above 0x30000000 or it will prevent linux
+ * from booting.
  *
  * We are using the "backup" kernel for the rescue boot ("backup" meaning the kernel
  * which can be copied over the production kernel when a rescue restore is performed).  We may
@@ -103,7 +104,7 @@
 #define CONFIG_EXTRA_ENV_SETTINGS \
         "verify=n\0" \
         "loadaddr=" __stringify(CONFIG_SYS_LOAD_ADDR) "\0" \
-        "initrd_high=0x20000000\0" \
+        "initrd_high=0x30000000\0" \
         "initrdloadaddr=0x4000000\0" \
         "compressedinitrdmaxsize=0x2000000\0" \
         "ramboot=setenv bootargs " "console=ttyS0," __stringify(CONFIG_BAUDRATE) " root=/dev/ram0 rw rootfstype=ext4 ramdisk_size=65536;" \
