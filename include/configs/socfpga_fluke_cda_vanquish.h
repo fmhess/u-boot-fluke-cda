@@ -31,7 +31,8 @@
 
 
 /*
- *Define this variable to reservvee a region of protected ram for the frame buffer rotaator 
+ * Define this variable to reserve a region of protected ram for the frame buffer rotaator 
+ * "mem=${mem}" should also be added to the linux boot parameters.
  */
 #define CONFIG_PRAM 8192
 
@@ -52,7 +53,7 @@
 
 /* Booting Linux */
 #define CONFIG_BOOTFILE         "zImage"
-#define CONFIG_BOOTARGS         "quiet loglevel=3 console=ttyS0," __stringify(CONFIG_BAUDRATE)
+#define CONFIG_BOOTARGS         "mem=${mem} quiet loglevel=3 console=ttyS0," __stringify(CONFIG_BAUDRATE)
 #ifdef CONFIG_SOCFPGA_VIRTUAL_TARGET
 #define CONFIG_BOOTCOMMAND      "run ramboot"
 #else
@@ -109,7 +110,7 @@
         "qspifpgaaddr=0x800000\0" \
         "qspifpga=sf probe ${qspiloadcs}; sf read ${fpgadata} ${qspifpgaaddr} ${fpgadatasize}; fpga load ${fpga} ${fpgadata} ${fpgadatasize}\0" \
         "qspiboot=setenv bootargs " CONFIG_BOOTARGS \
-                " ${qspirootpartition} root=${qspiroot} rw rootfstype=${qspirootfstype} vt.global_cursor_default=0 vt.cur_default=1 coherent_pool=256K mem=${mem} isolcpus=1; "\
+                " ${qspirootpartition} root=${qspiroot} rw rootfstype=${qspirootfstype} vt.global_cursor_default=0 vt.cur_default=1 coherent_pool=256K isolcpus=1; "\
                 "bootz ${loadaddr} - ${fdtaddr}\0" \
         "fpga=0\0" \
         "fpgadata=0x2000000\0" \
