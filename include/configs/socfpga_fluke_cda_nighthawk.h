@@ -51,7 +51,7 @@
 #define CONFIG_BOOTCOMMAND      "run ramboot"
 #else
 
-#define CONFIG_BOOTCOMMAND      "run qspifpga; bridge enable; run qspiload; run mmcboot"
+#define CONFIG_BOOTCOMMAND      "run qspifpga; bridge enable; run qspiload; run qspiboot"
 
 #endif
 #define CONFIG_LOADADDR         0x1000000
@@ -126,6 +126,7 @@
         "mmcload=mmc rescan;" \
                 "load mmc 0:1 ${loadaddr} ${bootimage};" \
                 "load mmc 0:1 ${fdtaddr} ${fdtimage}\0" \
+        "mmcrootbootcmd=run qspifpga; bridge enable; run qspiload; run mmcboot\0" \
         "qspiloadcs=0\0" \
         "qspibootimageaddr=0x200000\0" \
         "qspifdtaddr=0x110000\0" \
