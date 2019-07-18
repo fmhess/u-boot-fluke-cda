@@ -111,14 +111,18 @@
                 "bootz ${loadaddr} ${initrdloadaddr}:${compressedinitrdmaxsize} ${fdtaddr}\0" \
         "backupqspibootimageaddr=0x2200000\0" \
         "backupqspifdtaddr=0x2110000\0" \
-        "rescueqspiload=sf probe ${qspiloadcs};sf read ${loadaddr} ${backupqspibootimageaddr} ${bootimagesize};sf read ${fdtaddr} ${backupqspifdtaddr} ${fdtimagesize}\0" \
-        "rescueqspiinitrdload=sf probe 1;sf read ${initrdloadaddr} 0x0 ${compressedinitrdmaxsize}\0" \
-        "rescuebootcmd=run qspifpga; bridge enable; run rescueqspiload; run rescueqspiinitrdload; run ramboot\0" \
+        "rescueqspiloadcs=1\0" \
+        "rescueqspibootimageaddr=0x0\0" \
+        "rescueqspiinitrdaddr=0x800000\0" \
+        "rescueqspiload=sf probe ${rescueqspiloadcs};sf read ${loadaddr} ${rescueqspibootimageaddr} ${bootimagesize};" \
+                "sf read ${initrdloadaddr} ${rescueqspiinitrdaddr} ${compressedinitrdmaxsize};" \
+                "sf probe ${qspiloadcs};sf read ${fdtaddr} ${qspifdtaddr} ${fdtimagesize};\0" \
+        "rescuebootcmd=run qspifpga; bridge enable; run rescueqspiload; run ramboot\0" \
         "bootimage=zImage\0" \
         "bootimagesize=0x600000\0" \
         "fdtaddr=100\0" \
         "fdtimage=Nighthawk_soc.dtb\0" \
-        "fdtimagesize=0xFFFF\0" \
+        "fdtimagesize=0x10000\0" \
         "mmcroot=/dev/mmcblk0p1\0" \
         "mmcboot=setenv bootargs " CONFIG_BOOTARGS \
                 " root=${mmcroot} rw rootwait rootfstype=ext4; " \
