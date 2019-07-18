@@ -144,8 +144,6 @@
         "fpga=0\0" \
         "fpgadata=0x2000000\0" \
         "fpgadatasize=0x600000\0" \
-        "micrel-ksz9021-clk-skew=0xf0f0\0" \
-        "micrel-ksz9021-data-skew=0x0\0" \
         "ubiload=ubi part UBI && ubifsmount ubi0 && " \
                 "ubifsload ${loadaddr} /boot/${bootimage} && " \
                 "ubifsload ${fdtaddr} /boot/${fdtimage}\0"
