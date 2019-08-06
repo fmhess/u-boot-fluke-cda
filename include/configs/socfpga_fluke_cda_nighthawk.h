@@ -123,7 +123,7 @@
         "fdtaddr=100\0" \
         "fdtimage=Nighthawk_soc.dtb\0" \
         "fdtimagesize=0x10000\0" \
-        "mmcroot=/dev/mmcblk0p1\0" \
+        "mmcroot=/dev/mmcblk0p2\0" \
         "mmcboot=setenv bootargs " CONFIG_BOOTARGS \
                 " root=${mmcroot} rw rootwait rootfstype=ext4; " \
                 "bootz ${loadaddr} - ${fdtaddr}\0" \
