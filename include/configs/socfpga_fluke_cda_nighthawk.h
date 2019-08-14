@@ -107,7 +107,8 @@
         "initrd_high=0x30000000\0" \
         "initrdloadaddr=0x4000000\0" \
         "compressedinitrdmaxsize=0x2000000\0" \
-        "ramboot=setenv bootargs " "console=ttyS0," __stringify(CONFIG_BAUDRATE) " root=/dev/ram0 rw rootfstype=ext4 ramdisk_size=65536;" \
+        "ramboot=setenv bootargs " "console=ttyS0," __stringify(CONFIG_BAUDRATE) \
+                " root=/dev/ram0 rw rootfstype=ext4 ramdisk_size=65536 init=/sbin/rescue_fluke_cda_init.sh;" \
                 "bootz ${loadaddr} ${initrdloadaddr}:${compressedinitrdmaxsize} ${fdtaddr}\0" \
         "backupqspibootimageaddr=0x2200000\0" \
         "backupqspifdtaddr=0x2110000\0" \
