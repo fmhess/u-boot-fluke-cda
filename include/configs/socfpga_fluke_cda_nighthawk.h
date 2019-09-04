@@ -106,19 +106,20 @@
         "loadaddr=" __stringify(CONFIG_SYS_LOAD_ADDR) "\0" \
         "initrd_high=0x30000000\0" \
         "initrdloadaddr=0x4000000\0" \
-        "compressedinitrdmaxsize=0x2000000\0" \
+        "compressedinitrdmaxsize=0x1000000\0" \
         "ramboot=setenv bootargs " "console=ttyS0," __stringify(CONFIG_BAUDRATE) \
-                " root=/dev/ram0 rw rootfstype=ext4 ramdisk_size=65536 init=/sbin/rescue_fluke_cda_init.sh;" \
+                " root=/dev/ram0 rw rootfstype=ext4 ramdisk_size=65536 init=${rescueinit};" \
                 "bootz ${loadaddr} ${initrdloadaddr}:${compressedinitrdmaxsize} ${fdtaddr}\0" \
         "backupqspibootimageaddr=0x2200000\0" \
         "backupqspifdtaddr=0x2110000\0" \
-        "rescueqspiloadcs=1\0" \
-        "rescueqspibootimageaddr=0x0\0" \
-        "rescueqspiinitrdaddr=0x800000\0" \
+        "rescueqspiloadcs=0\0" \
+        "rescueqspibootimageaddr=0x200000\0" \
+        "rescueqspiinitrdaddr=0x01000000\0" \
         "rescueqspiload=sf probe ${rescueqspiloadcs};sf read ${loadaddr} ${rescueqspibootimageaddr} ${bootimagesize};" \
                 "sf read ${initrdloadaddr} ${rescueqspiinitrdaddr} ${compressedinitrdmaxsize};" \
                 "sf probe ${qspiloadcs};sf read ${fdtaddr} ${qspifdtaddr} ${fdtimagesize};\0" \
         "rescuebootcmd=run qspifpga; bridge enable; run rescueqspiload; run ramboot\0" \
+        "rescueinit=/sbin/rescue_fluke_cda_init.sh\0" \
         "bootimage=zImage\0" \
         "bootimagesize=0x600000\0" \
         "fdtaddr=100\0" \
@@ -138,7 +139,7 @@
         "qspiload=sf probe ${qspiloadcs};" \
                 "sf read ${loadaddr} ${qspibootimageaddr} ${bootimagesize};" \
                 "sf read ${fdtaddr} ${qspifdtaddr} ${fdtimagesize};\0" \
-        "qspirootpartition=ubi.mtd=4\0" \
+        "qspirootpartition=ubi.mtd=12\0" \
         "qspiroot=ubi0:root-fs\0" \
         "qspirootfstype=ubifs\0" \
         "qspifpgaaddr=0x800000\0" \
@@ -148,7 +149,7 @@
                 "bootz ${loadaddr} - ${fdtaddr}\0" \
         "fpga=0\0" \
         "fpgadata=0x2000000\0" \
-        "fpgadatasize=0x600000\0" \
+        "fpgadatasize=0x800000\0" \
         "ubiload=ubi part UBI && ubifsmount ubi0 && " \
                 "ubifsload ${loadaddr} /boot/${bootimage} && " \
                 "ubifsload ${fdtaddr} /boot/${fdtimage}\0"
