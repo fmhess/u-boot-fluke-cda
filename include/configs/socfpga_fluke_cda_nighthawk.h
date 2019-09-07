@@ -108,8 +108,8 @@
         "initrdloadaddr=0x4000000\0" \
         "compressedinitrdmaxsize=0x1000000\0" \
         "ramboot=setenv bootargs " "console=ttyS0," __stringify(CONFIG_BAUDRATE) \
-                " root=/dev/ram0 rw rootfstype=ext4 ramdisk_size=65536 init=${rescueinit};" \
-                "bootz ${loadaddr} ${initrdloadaddr}:0x4000000 ${fdtaddr}\0" \
+                " root=/dev/ram0 rw rootfstype=ext4 ramdisk_size=32768 init=${rescueinit};" \
+                "bootz ${loadaddr} ${initrdloadaddr}:0x2000000 ${fdtaddr}\0" \
         "backupqspibootimageaddr=0x2200000\0" \
         "backupqspifdtaddr=0x2110000\0" \
         "rescueqspiloadcs=0\0" \
