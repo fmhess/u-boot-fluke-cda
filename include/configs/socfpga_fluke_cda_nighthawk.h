@@ -51,7 +51,7 @@
 #define CONFIG_BOOTCOMMAND      "run ramboot"
 #else
 
-#define CONFIG_BOOTCOMMAND      "run qspifpga; bridge enable; run qspiload; run qspiboot"
+#define CONFIG_BOOTCOMMAND      "run rescuebootcmd"
 
 #endif
 #define CONFIG_LOADADDR         0x1000000
@@ -147,6 +147,7 @@
         "qspiboot=setenv bootargs " CONFIG_BOOTARGS \
                 " ${qspirootpartition} root=${qspiroot} rw rootfstype=${qspirootfstype}; "\
                 "bootz ${loadaddr} - ${fdtaddr}\0" \
+        "qspibootcmd=run qspifpga; bridge enable; run qspiload; run qspiboot\0"\
         "fpga=0\0" \
         "fpgadata=0x2000000\0" \
         "fpgadatasize=0x800000\0" \
