@@ -73,7 +73,6 @@
 &i2c0 {
     status = "ok";
     speed-mode = <0>;
-
 }; //end i2c@0xffc04000 (hps_0_i2c0)
 
 &i2c1 {
@@ -88,11 +87,11 @@
 
 
 &spi0 {
-#address-cells = < 1 >;  
-    #size-cells = < 0 >;  
-    bus-num = < 0 >;   
-    num-chipselect = < 4 >;  
-    status = "okay";   
+#address-cells = < 1 >;
+    #size-cells = < 0 >;
+    bus-num = < 0 >;
+    num-chipselect = < 4 >;
+    status = "okay";
 
     spidev@0 {
         compatible = "spidev";
