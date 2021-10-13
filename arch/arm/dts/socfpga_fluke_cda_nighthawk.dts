@@ -74,17 +74,6 @@
     status = "ok";
     speed-mode = <0>;
 
-    mac_eeprom@50 {
-        compatible = "atmel,24mac402";
-        reg = <0x00000050>;
-        pagesize = <16>;	/* appended from boardinfo */
-    }; //end atmel,24mac402@0x50 (mac_eeprom)
-
-    eeprom@51 {
-        compatible = "atmel,24c32";
-        reg = <0x00000051>;
-        pagesize = <32>;	/* appended from boardinfo */
-    }; //end atmel,24c32@0x51 (eeprom)
 }; //end i2c@0xffc04000 (hps_0_i2c0)
 
 &i2c1 {
@@ -104,15 +93,6 @@
     bus-num = < 0 >;   
     num-chipselect = < 4 >;  
     status = "okay";   
-
-    temp@1 {
-        compatible = "hwmon,adt7302";
-        reg = < 1 >;  
-        spi-max-frequency = < 100000000 >; 
-        spi-cpha = <1>;	/* appended from boardinfo */
-        spi-cpol = <1>;	/* appended from boardinfo */
-        enable-dma = < 1 >; 
-    };
 
     spidev@0 {
         compatible = "spidev";
@@ -153,23 +133,6 @@
         tslch-ns = <4>;
         is-decoded-cs = <0>;
     };
-
-    flash1: n25q00@1 {
-        u-boot,dm-pre-reloc;
-        #address-cells = <1>;
-        #size-cells = <1>;
-        compatible = "n25q00", "spi-flash";
-        reg = <1>;      /* chip select */
-        spi-max-frequency = <50000000>;
-
-        cdns,page-size = <256>;
-        cdns,block-size = <16>;
-        cdns,read-delay = <4>;
-        cdns,tshsl-ns = <50>;
-        cdns,tsd2d-ns = <50>;
-        cdns,tchsh-ns = <4>;
-        cdns,tslch-ns = <4>;
-    }; //end n25q00@1 (flash1)
 };
 
 &uart0 {
