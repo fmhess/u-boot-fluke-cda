@@ -46,7 +46,7 @@
 
 /* Booting Linux */
 #define CONFIG_BOOTFILE         "zImage"
-// #define CONFIG_CONSOLE_BOOTARGS "console=ttyS0," __stringify(CONFIG_BAUDRATE)
+/* #define CONFIG_CONSOLE_BOOTARGS "console=ttyS0," __stringify(CONFIG_BAUDRATE) */
 #define CONFIG_CONSOLE_BOOTARGS "console=null"
 #define CONFIG_BOOTARGS 	CONFIG_CONSOLE_BOOTARGS " vt.global_cursor_default=0 vt.cur_default=1 coherent_pool=256K isolcpus=1"
 #ifdef CONFIG_SOCFPGA_VIRTUAL_TARGET
