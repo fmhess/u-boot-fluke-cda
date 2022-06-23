@@ -46,9 +46,9 @@
 
 /* Booting Linux */
 #define CONFIG_BOOTFILE         "zImage"
-/* #define CONFIG_CONSOLE_BOOTARGS "console=ttyS0," __stringify(CONFIG_BAUDRATE) */
-#define CONFIG_CONSOLE_BOOTARGS "console=null"
-#define CONFIG_BOOTARGS 	CONFIG_CONSOLE_BOOTARGS " vt.global_cursor_default=0 vt.cur_default=1 coherent_pool=256K isolcpus=1"
+/* #define NIGHTHAWK_CONSOLE_BOOTARGS "console=ttyS0," __stringify(CONFIG_BAUDRATE) */
+#define NIGHTHAWK_CONSOLE_BOOTARGS "console=null"
+#define CONFIG_BOOTARGS 	NIGHTHAWK_CONSOLE_BOOTARGS " vt.global_cursor_default=0 vt.cur_default=1 coherent_pool=256K isolcpus=1"
 #ifdef CONFIG_SOCFPGA_VIRTUAL_TARGET
 #define CONFIG_BOOTCOMMAND      "run ramboot"
 #else
@@ -109,7 +109,7 @@
         "initrd_high=0x30000000\0" \
         "initrdloadaddr=0x4000000\0" \
         "compressedinitrdmaxsize=0x1000000\0" \
-        "ramboot=setenv bootargs " CONFIG_CONSOLE_BOOTARGS \
+        "ramboot=setenv bootargs " NIGHTHAWK_CONSOLE_BOOTARGS \
                 " root=/dev/ram0 rw rootfstype=ext4 ramdisk_size=32768 init=${rescueinit};" \
                 "bootz ${loadaddr} ${initrdloadaddr}:0x2000000 ${fdtaddr}\0" \
         "backupqspibootimageaddr=0x2200000\0" \
